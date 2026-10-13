@@ -13,6 +13,8 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         details > summary { list-style: none; cursor: pointer; }
         details > summary::-webkit-details-marker { display: none; }
+        body.cues-off .cue { display: none; }
+        .cue code { background: #fef3c7; padding: 0 2px; border-radius: 2px; }
     </style>
 </head>
 <body class="bg-gray-50 h-screen flex flex-col overflow-hidden font-sans">
@@ -21,6 +23,7 @@
     <header class="bg-blue-900 text-white p-4 shadow-md flex justify-between items-center z-10 shrink-0">
         <div><h1 class="text-xl font-bold">SAT Math: Desmos Hack Sprint</h1></div>
         <!-- Timer buttons remain the same -->
+        <button id="cue-toggle" onclick="toggleCues()" class="bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded transition">🙈 Hide cues</button>
     </header>
 
     <div class="flex flex-1 overflow-hidden">
@@ -38,6 +41,12 @@
                         <span class="text-sm text-gray-600 block">Type equations on two lines. Click intersection.</span>
                     </div>
                 </label>
+                <div class="cue bg-yellow-50 border border-yellow-200 rounded p-2 mb-2 text-xs text-gray-800">
+                    <p class="font-bold mb-1">👀 See this → do this</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><b>An equation with x to solve</b> ("what is x," "solution") → left side on Line 1, right side on Line 2. Click where they cross. The x-value is the answer.</li>
+                    </ul>
+                </div>
                 <details class="mt-2 bg-white border rounded p-2 text-sm shadow-sm group">
                     <summary class="font-semibold text-blue-700 hover:text-blue-800 flex justify-between items-center outline-none">
                         <span>📝 Practice Drills</span>
@@ -59,9 +68,17 @@
                     <input type="checkbox" class="task-check mt-1 h-4 w-4 text-blue-600">
                     <div>
                         <span class="font-bold block text-gray-800">2. The Slider Sweep (k)</span>
-                        <span class="text-sm text-gray-600 block">Add slider 'k'. Drag until lines are parallel.</span>
+                        <span class="text-sm text-gray-600 block">Type both lines. Say yes when Desmos offers a slider for k. Drag it.</span>
                     </div>
                 </label>
+                <div class="cue bg-yellow-50 border border-yellow-200 rounded p-2 mb-2 text-xs text-gray-800">
+                    <p class="font-bold mb-1">👀 See this → do this</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><b>"no solution"</b> → drag k until the lines are parallel and never cross.</li>
+                        <li><b>"infinitely many solutions"</b> → drag k until one line hides the other.</li>
+                        <li><b>"exactly one solution"</b> → drag k until the line just touches the curve.</li>
+                    </ul>
+                </div>
                 <details class="mt-2 bg-white border rounded p-2 text-sm shadow-sm group">
                     <summary class="font-semibold text-blue-700 hover:text-blue-800 flex justify-between items-center outline-none">
                         <span>📝 Practice Drills</span>
@@ -85,9 +102,15 @@
                     <input type="checkbox" class="task-check mt-1 h-4 w-4 text-blue-600">
                     <div>
                         <span class="font-bold block text-gray-800">3. Equivalent Expressions</span>
-                        <span class="text-sm text-gray-600 block">Type the given expression. Type each answer choice. The one that hides it wins.</span>
+                        <span class="text-sm text-gray-600 block">Type the given expression. Test each answer choice.</span>
                     </div>
                 </label>
+                <div class="cue bg-yellow-50 border border-yellow-200 rounded p-2 mb-2 text-xs text-gray-800">
+                    <p class="font-bold mb-1">👀 See this → do this</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><b>"equivalent to"</b> → Line 1 is the given expression. Type each choice as Line 2. The choice that hides Line 1 wins.</li>
+                    </ul>
+                </div>
                 <details class="mt-2 bg-white border rounded p-2 text-sm shadow-sm group">
                     <summary class="font-semibold text-blue-700 hover:text-blue-800 flex justify-between items-center outline-none">
                         <span>📝 Practice Drills</span>
@@ -109,9 +132,18 @@
                     <input type="checkbox" class="task-check mt-1 h-4 w-4 text-blue-600">
                     <div>
                         <span class="font-bold block text-gray-800">4. Instant Regressions</span>
-                        <span class="text-sm text-gray-600 block">Make a table. Type y_1 ~ mx_1 + b. Read m and b.</span>
+                        <span class="text-sm text-gray-600 block">Make a table. Type the squiggle. Read the numbers.</span>
                     </div>
                 </label>
+                <div class="cue bg-yellow-50 border border-yellow-200 rounded p-2 mb-2 text-xs text-gray-800">
+                    <p class="font-bold mb-1">👀 See this → do this</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><b>A table + "linear," "line of best fit," or "model"</b> → <code>y_1 ~ mx_1 + b</code>. Read m and b.</li>
+                        <li><b>"exponential"</b> → <code>y_1 ~ ab^{x_1}</code>.</li>
+                        <li><b>"quadratic"</b> → <code>y_1 ~ ax_1^2 + bx_1 + c</code>.</li>
+                        <li>Pick the choice closest to the numbers Desmos shows.</li>
+                    </ul>
+                </div>
                 <details class="mt-2 bg-white border rounded p-2 text-sm shadow-sm group">
                     <summary class="font-semibold text-blue-700 hover:text-blue-800 flex justify-between items-center outline-none">
                         <span>📝 Practice Drills</span>
@@ -135,9 +167,17 @@
                     <input type="checkbox" class="task-check mt-1 h-4 w-4 text-blue-600">
                     <div>
                         <span class="font-bold block text-gray-800">5. Quadratic Extremas</span>
-                        <span class="text-sm text-gray-600 block">Type the parabola. Click the vertex or the x-axis crossings.</span>
+                        <span class="text-sm text-gray-600 block">Type the parabola. Click the special point.</span>
                     </div>
                 </label>
+                <div class="cue bg-yellow-50 border border-yellow-200 rounded p-2 mb-2 text-xs text-gray-800">
+                    <p class="font-bold mb-1">👀 See this → do this</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><b>"minimum" or "maximum" or "greatest value"</b> → click the bottom or top. Read the y.</li>
+                        <li><b>"for what x is it smallest or largest"</b> → same point. Read the x.</li>
+                        <li><b>"solution," "zero," or "x-intercept"</b> → click where it crosses the x-axis.</li>
+                    </ul>
+                </div>
                 <details class="mt-2 bg-white border rounded p-2 text-sm shadow-sm group">
                     <summary class="font-semibold text-blue-700 hover:text-blue-800 flex justify-between items-center outline-none">
                         <span>📝 Practice Drills</span>
@@ -159,9 +199,15 @@
                     <input type="checkbox" class="task-check mt-1 h-4 w-4 text-blue-600">
                     <div>
                         <span class="font-bold block text-gray-800">6. Circle Geometry</span>
-                        <span class="text-sm text-gray-600 block">Type the circle exactly as written. Read the edges for center and radius.</span>
+                        <span class="text-sm text-gray-600 block">Type the circle exactly as written. Read the edges.</span>
                     </div>
                 </label>
+                <div class="cue bg-yellow-50 border border-yellow-200 rounded p-2 mb-2 text-xs text-gray-800">
+                    <p class="font-bold mb-1">👀 See this → do this</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><b>"circle" + "radius," "diameter," or "center"</b> → find the left and right edges (and top and bottom). Halfway between is the center. Half the width is the radius.</li>
+                    </ul>
+                </div>
                 <details class="mt-2 bg-white border rounded p-2 text-sm shadow-sm group">
                     <summary class="font-semibold text-blue-700 hover:text-blue-800 flex justify-between items-center outline-none">
                         <span>📝 Practice Drills</span>
@@ -184,5 +230,22 @@
             <iframe class="absolute top-0 left-0 w-full h-full border-none" src="https://www.desmos.com/testing/collegeboard/graphing"></iframe>
         </div>
     </div>
+    <script>
+        // Cue cards are training wheels. Hide them to practice recalling the pattern from memory.
+        function applyCues(off) {
+            document.body.classList.toggle('cues-off', off);
+            document.getElementById('cue-toggle').textContent = off ? '👀 Show cues' : '🙈 Hide cues';
+        }
+        function toggleCues() {
+            const off = !document.body.classList.contains('cues-off');
+            applyCues(off);
+            try { localStorage.setItem('cuesOff', off ? '1' : '0'); } catch (e) {}
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            let off = false;
+            try { off = localStorage.getItem('cuesOff') === '1'; } catch (e) {}
+            applyCues(off);
+        });
+    </script>
 </body>
 </html>

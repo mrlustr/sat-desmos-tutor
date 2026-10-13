@@ -1,71 +1,87 @@
 // questions.js
 
 const questionBank = {
+    // Hack 1: Left vs. Right Split (solve for x by clicking the intersection)
     hack1: [
         { q: "If √(3x + 1) = 4, what is the value of x?", eq1: "y = \\sqrt{3x+1}", eq2: "y = 4", ans: "x = 5" },
         { q: "If |2x - 4| = 10, what is the positive value of x?", eq1: "y = |2x - 4|", eq2: "y = 10", ans: "x = 7" },
         { q: "If 5(x + 2) = 3x - 8, what is x?", eq1: "y = 5(x+2)", eq2: "y = 3x-8", ans: "x = -9" },
-        { q: "If 4(x - 1) = 2x + 10, what is the value of x?", eq1: "y = 4(x-1)", eq2: "y = 2x+10", ans: "x = 7" },
-        { q: "If √(x + 5) = 3, what is the value of x?", eq1: "y = \\sqrt{x+5}", eq2: "y = 3", ans: "x = 4" },
-        { q: "If |x - 3| = 8, what is the positive value of x?", eq1: "y = |x - 3|", eq2: "y = 8", ans: "x = 11" },
-        { q: "If x² - 5x + 6 = 0, what is the greater solution?", eq1: "y = x^2 - 5x + 6", eq2: "y = 0", ans: "x = 3" },
-        { q: "If 3^x = 81, what is the value of x?", eq1: "y = 3^x", eq2: "y = 81", ans: "x = 4" },
-        { q: "If (x + 1)/(x - 2) = 3, what is the value of x?", eq1: "y = \\frac{x+1}{x-2}", eq2: "y = 3", ans: "x = 3.5" },
-        { q: "If √(2x - 1) = x - 2, what is the value of x? (Watch for a fake solution!)", eq1: "y = \\sqrt{2x-1}", eq2: "y = x - 2", ans: "x = 5 (the graphs cross only once; x = 1 is extraneous)" },
-        { q: "What is the sum of all solutions to |3x + 2| = x + 10?", eq1: "y = |3x + 2|", eq2: "y = x + 10", ans: "Intersections at x = 4 and x = -3, so the sum is 1" },
-        { q: "If x² = 49, what is the negative value of x?", eq1: "y = x^2", eq2: "y = 49", ans: "x = -7" }
+        { q: "If 4(x - 1) = 2x + 10, what is the value of x?", eq1: "y = 4(x-1)", eq2: "y = 2x+10", ans: "The lines cross at x = 7." },
+        { q: "If √(x + 5) = 3, what is the value of x?", eq1: "y = \\sqrt{x+5}", eq2: "y = 3", ans: "The curve meets the line at x = 4." },
+        { q: "If |x - 3| = 8, what is the positive value of x?", eq1: "y = |x - 3|", eq2: "y = 8", ans: "The V crosses the line at x = 11 (and x = -5). The positive one is x = 11." },
+        { q: "What is the greater solution to the equation x² - 5x + 6 = 0?", eq1: "y = x^2 - 5x + 6", eq2: "y = 0", ans: "The parabola crosses the x-axis at x = 2 and x = 3. The greater is x = 3." },
+        { q: "If 3^x = 81, what is the value of x?", eq1: "y = 3^x", eq2: "y = 81", ans: "The curve meets the line at x = 4." },
+        { q: "If (x + 1)/(x - 2) = 3, what is the value of x?", eq1: "y = \\frac{x+1}{x-2}", eq2: "y = 3", ans: "The curve meets the line at x = 3.5." },
+        { q: "What is the solution to the equation √(2x - 1) = x - 2?", eq1: "y = \\sqrt{2x-1}", eq2: "y = x - 2", ans: "The curves cross only once, at x = 5. Only trust a crossing you can actually see." },
+        { q: "What is the sum of all solutions to the equation |3x + 2| = x + 10?", eq1: "y = |3x + 2|", eq2: "y = x + 10", ans: "Two crossings: x = 4 and x = -3. Sum = 1." },
+        { q: "What is the negative solution to the equation x² = 49?", eq1: "y = x^2", eq2: "y = 49", ans: "The crossings are x = 7 and x = -7. The negative one is x = -7." }
     ],
+
+    // Hack 2: Slider Sweep (k). The question never says "drag" - the trigger phrases are the cue.
     hack2: [
-        { q: "The system y = 3x + 5 and y = kx - 2 has no solution. What is k?", eq1: "y = 3x + 5", eq2: "y = kx - 2", ans: "k = 3" },
-        { q: "The system y = -2x + 7 and y = kx + 4 has no solution. What is k?", eq1: "y = -2x + 7", eq2: "y = kx + 4", ans: "k = -2" },
-        { q: "The system y = 4x - 1 and y = kx + 6 has no solution. What is k?", eq1: "y = 4x - 1", eq2: "y = kx + 6", ans: "k = 4" },
-        { q: "The system y = -5x + 2 and y = kx - 3 has no solution. What is k?", eq1: "y = -5x + 2", eq2: "y = kx - 3", ans: "k = -5" },
-        { q: "The system y = (1/2)x + 3 and y = kx - 1 has no solution. What is k?", eq1: "y = \\frac{1}{2}x + 3", eq2: "y = kx - 1", ans: "k = 1/2 (0.5)" },
-        { q: "The system 6x + 3y = 9 and kx + y = 5 has no solution. What is k?", eq1: "6x + 3y = 9", eq2: "kx + y = 5", ans: "k = 2" },
-        { q: "The system kx + 2y = 8 and 3x + 4y = 10 has no solution. What is k?", eq1: "kx + 2y = 8", eq2: "3x + 4y = 10", ans: "k = 3/2 (1.5)" },
-        { q: "The system 5x - 2y = 10 and kx - 4y = 7 has no solution. What is k?", eq1: "5x - 2y = 10", eq2: "kx - 4y = 7", ans: "k = 10" },
-        { q: "The system 2y = 6x + 8 and y = 3x + k has infinitely many solutions. What is k? (Drag k until the lines sit on top of each other.)", eq1: "2y = 6x + 8", eq2: "y = 3x + k", ans: "k = 4" },
-        { q: "For what value of k does the line y = k touch the parabola y = x² - 6x + 5 at exactly one point? (Drag k until the line just kisses the curve.)", eq1: "y = x^2 - 6x + 5", eq2: "y = k", ans: "k = -4 (the line rests on the bottom of the U)" },
-        { q: "For what value of k does the line y = k touch the parabola y = -x² + 4x + 1 at exactly one point? (Drag k until the line just kisses the curve.)", eq1: "y = -x^2 + 4x + 1", eq2: "y = k", ans: "k = 5 (the line rests on the top of the hill)" },
-        { q: "The equation x² + 2x - 3 = k has exactly one solution. What is k? (Drag k until the line just kisses the curve.)", eq1: "y = x^2 + 2x - 3", eq2: "y = k", ans: "k = -4 (the line rests on the bottom of the U)" }
+        { q: "y = 3x + 5<br>y = kx - 2<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "y = 3x + 5", eq2: "y = kx - 2", ans: "Lines parallel, never crossing. k = 3" },
+        { q: "y = -2x + 7<br>y = kx + 4<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "y = -2x + 7", eq2: "y = kx + 4", ans: "Lines parallel, never crossing. k = -2" },
+        { q: "y = 4x - 1<br>y = kx + 6<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "y = 4x - 1", eq2: "y = kx + 6", ans: "Lines parallel, never crossing. k = 4" },
+        { q: "y = -5x + 2<br>y = kx - 3<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "y = -5x + 2", eq2: "y = kx - 3", ans: "Lines parallel, never crossing. k = -5" },
+        { q: "y = (1/2)x + 3<br>y = kx - 1<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "y = \\frac{1}{2}x + 3", eq2: "y = kx - 1", ans: "Lines parallel, never crossing. k = 1/2 (0.5)" },
+        { q: "6x + 3y = 9<br>kx + y = 5<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "6x + 3y = 9", eq2: "kx + y = 5", ans: "Lines parallel, never crossing. k = 2" },
+        { q: "kx + 2y = 8<br>3x + 4y = 10<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "kx + 2y = 8", eq2: "3x + 4y = 10", ans: "Lines parallel, never crossing. k = 3/2 (1.5)" },
+        { q: "5x - 2y = 10<br>kx - 4y = 7<br>In the given system of equations, k is a constant. If the system has no solution, what is the value of k?", eq1: "5x - 2y = 10", eq2: "kx - 4y = 7", ans: "Lines parallel, never crossing. k = 10" },
+        { q: "2y = 6x + 8<br>y = 3x + k<br>In the given system of equations, k is a constant. If the system has infinitely many solutions, what is the value of k?", eq1: "2y = 6x + 8", eq2: "y = 3x + k", ans: "One line hides the other. k = 4" },
+        { q: "The equation x² - 6x + 5 = k, where k is a constant, has exactly one solution. What is the value of k?", eq1: "y = x^2 - 6x + 5", eq2: "y = k", ans: "The line just touches the bottom of the U. k = -4" },
+        { q: "The equation -x² + 4x + 1 = k, where k is a constant, has exactly one solution. What is the value of k?", eq1: "y = -x^2 + 4x + 1", eq2: "y = k", ans: "The line just touches the top of the hill. k = 5" },
+        { q: "The equation x² + 2x - 3 = k, where k is a constant, has exactly one solution. What is the value of k?", eq1: "y = x^2 + 2x - 3", eq2: "y = k", ans: "The line just touches the bottom of the U. k = -4" },
+        { q: "y = x²<br>y = 4x + k<br>In the given system of equations, k is a constant. If the system has exactly one solution, what is the value of k?", eq1: "y = x^2", eq2: "y = 4x + k", ans: "The slanted line just touches the parabola at one point. k = -4" }
     ],
+
+    // Hack 3: Equivalent Expressions (the choice that hides Line 1 wins)
     hack3: [
-        { q: "Which expression is equivalent to (x + 3)(x - 2)?<br>A) x² + x - 6<br>B) x² - x - 6<br>C) x² + 5x - 6<br>D) x² - 5x + 6", eq1: "y = (x+3)(x-2)", eq2: "y = x^2 + x - 6", ans: "A. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to 2(x - 1)² + 3?<br>A) 2x² + 4x + 5<br>B) 2x² - 2x + 5<br>C) 2x² - 4x + 5<br>D) 2x² - 4x + 1", eq1: "y = 2(x-1)^2 + 3", eq2: "y = 2x^2 - 4x + 5", ans: "C. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to (x² - 9)/(x - 3)?<br>A) x - 3<br>B) x + 3<br>C) x² - 3<br>D) x + 9", eq1: "y = \\frac{x^2-9}{x-3}", eq2: "y = x + 3", ans: "B. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to (x² + 5x + 6)/(x + 2)?<br>A) x + 2<br>B) x + 6<br>C) x + 3<br>D) x + 5", eq1: "y = \\frac{x^2+5x+6}{x+2}", eq2: "y = x + 3", ans: "C. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to (x - 4)²?<br>A) x² - 16<br>B) x² - 8x + 16<br>C) x² + 8x + 16<br>D) x² - 4x + 16", eq1: "y = (x-4)^2", eq2: "y = x^2 - 8x + 16", ans: "B. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to x(x + 1)(x - 1)?<br>A) x³ + x<br>B) x³ - x²<br>C) x³ - x<br>D) x³ - 1", eq1: "y = x(x+1)(x-1)", eq2: "y = x^3 - x", ans: "C. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to (2x² + 4x)/(x + 2)?<br>A) 2x + 4<br>B) x<br>C) 2x<br>D) 2x²", eq1: "y = \\frac{2x^2+4x}{x+2}", eq2: "y = 2x", ans: "C. Type each choice on Line 2. The right one hides Line 1 completely." },
-        { q: "Which expression is equivalent to 3(x + 2) - (x - 4)?<br>A) 2x + 2<br>B) 2x + 10<br>C) 4x + 2<br>D) 4x + 10", eq1: "y = 3(x+2) - (x-4)", eq2: "y = 2x + 10", ans: "B. Type each choice on Line 2. The right one hides Line 1 completely." }
+        { q: "Which expression is equivalent to (x + 3)(x - 2)?<br>A) x² + x - 6<br>B) x² - x - 6<br>C) x² + 5x - 6<br>D) x² - 5x + 6", eq1: "y = (x+3)(x-2)", eq2: "y = x^2 + x - 6", ans: "Choice A hides Line 1 completely." },
+        { q: "Which expression is equivalent to 2(x - 1)² + 3?<br>A) 2x² + 4x + 5<br>B) 2x² - 2x + 5<br>C) 2x² - 4x + 5<br>D) 2x² - 4x + 1", eq1: "y = 2(x-1)^2 + 3", eq2: "y = 2x^2 - 4x + 5", ans: "Choice C hides Line 1 completely." },
+        { q: "Which expression is equivalent to (x² - 9)/(x - 3), where x ≠ 3?<br>A) x - 3<br>B) x + 3<br>C) x² - 3<br>D) x + 9", eq1: "y = \\frac{x^2-9}{x-3}", eq2: "y = x + 3", ans: "Choice B hides Line 1 completely." },
+        { q: "Which expression is equivalent to (x² + 5x + 6)/(x + 2), where x ≠ -2?<br>A) x + 2<br>B) x + 6<br>C) x + 3<br>D) x + 5", eq1: "y = \\frac{x^2+5x+6}{x+2}", eq2: "y = x + 3", ans: "Choice C hides Line 1 completely." },
+        { q: "Which expression is equivalent to (x - 4)²?<br>A) x² - 16<br>B) x² - 8x + 16<br>C) x² + 8x + 16<br>D) x² - 4x + 16", eq1: "y = (x-4)^2", eq2: "y = x^2 - 8x + 16", ans: "Choice B hides Line 1 completely." },
+        { q: "Which expression is equivalent to x(x + 1)(x - 1)?<br>A) x³ + x<br>B) x³ - x²<br>C) x³ - x<br>D) x³ - 1", eq1: "y = x(x+1)(x-1)", eq2: "y = x^3 - x", ans: "Choice C hides Line 1 completely." },
+        { q: "Which expression is equivalent to (2x² + 4x)/(x + 2), where x ≠ -2?<br>A) 2x + 4<br>B) x<br>C) 2x<br>D) 2x²", eq1: "y = \\frac{2x^2+4x}{x+2}", eq2: "y = 2x", ans: "Choice C hides Line 1 completely." },
+        { q: "Which expression is equivalent to 3(x + 2) - (x - 4)?<br>A) 2x + 2<br>B) 2x + 10<br>C) 4x + 2<br>D) 4x + 10", eq1: "y = 3(x+2) - (x-4)", eq2: "y = 2x + 10", ans: "Choice B hides Line 1 completely." }
     ],
+
+    // Hack 4: Instant Regressions (table + squiggle). Table values live in q; read the parameters from Desmos.
     hack4: [
-        { q: "Make a table.<br>x: 1, 2, 3, 4, 5<br>y: 5, 8, 11, 14, 17<br>What is the slope (m)?", eq1: "y_1 ~ mx_1 + b", ans: "m = 3 (and b = 2)" },
-        { q: "Make a table.<br>x: 1, 2, 3, 4<br>y: 7, 5, 3, 1<br>What is the y-intercept (b)?", eq1: "y_1 ~ mx_1 + b", ans: "b = 9 (and m = -2)" },
-        { q: "Make a table.<br>x: 2, 4, 6, 8<br>y: 7, 11, 15, 19<br>What is the y-intercept (b)?", eq1: "y_1 ~ mx_1 + b", ans: "b = 3 (and m = 2)" },
-        { q: "Make a table.<br>x: 1, 2, 3, 4<br>y: 2.5, 4, 5.5, 7<br>What is the slope (m)?", eq1: "y_1 ~ mx_1 + b", ans: "m = 1.5 (and b = 1)" },
-        { q: "Make a table.<br>x: 0, 1, 2, 3<br>y: 2, 6, 18, 54<br>Each step, y is multiplied by what number? (Use the exponential squiggle.)", eq1: "y_1 ~ ab^{x_1}", ans: "b = 3 (and a = 2)" },
-        { q: "Make a table.<br>x: 0, 1, 2, 3<br>y: 3, 2, 3, 6<br>What is b? (Use the parabola squiggle.)", eq1: "y_1 ~ ax_1^2 + bx_1 + c", ans: "b = -2 (a = 1, c = 3)" }
+        { q: "In the table, y is a linear function of x. Which equation defines the function?<br>x: 1, 2, 3, 4, 5<br>y: 5, 8, 11, 14, 17<br>A) y = 2x + 3<br>B) y = 3x + 2<br>C) y = 3x + 5<br>D) y = 5x - 3", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m = 3, b = 2. Choice B." },
+        { q: "In the table, y is a linear function of x. Which equation defines the function?<br>x: 1, 2, 3, 4<br>y: 7, 5, 3, 1<br>A) y = -2x + 9<br>B) y = 2x + 5<br>C) y = -2x + 7<br>D) y = -3x + 10", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m = -2, b = 9. Choice A." },
+        { q: "The table shows values of x and y for a linear relationship. What is the y-intercept of the line that models these data?<br>x: 2, 4, 6, 8<br>y: 7, 11, 15, 19", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m = 2, b = 3. The y-intercept is 3." },
+        { q: "The table shows values of x and y for a linear relationship. What is the slope of the line that models these data?<br>x: 1, 2, 3, 4<br>y: 2.5, 4, 5.5, 7", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m = 1.5, b = 1. The slope is 1.5." },
+        { q: "In the table, y is an exponential function of x. Which equation defines the function?<br>x: 0, 1, 2, 3<br>y: 2, 6, 18, 54<br>A) y = 3(2)^x<br>B) y = 2(3)^x<br>C) y = 6x + 2<br>D) y = 2(6)^x", eq1: "y_1 ~ ab^{x_1}", ans: "Desmos shows a = 2, b = 3. Choice B." },
+        { q: "In the table, y is a quadratic function of x. Which equation defines the function?<br>x: 0, 1, 2, 3<br>y: 3, 2, 3, 6<br>A) y = x² - 2x + 3<br>B) y = x² + 2x + 3<br>C) y = 3x² - 4x + 3<br>D) y = x² - 3", eq1: "y_1 ~ ax_1^2 + bx_1 + c", ans: "Desmos shows a = 1, b = -2, c = 3. Choice A." },
+        { q: "The table shows six data points. Which equation is the best model for the line of best fit?<br>x: 1, 2, 3, 4, 5, 6<br>y: 4, 7, 9, 13, 14, 18<br>A) y = 1.7x + 1.3<br>B) y = 2.7x + 1.3<br>C) y = 2.7x + 3.3<br>D) y = 3.7x + 1.3", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m ≈ 2.71, b ≈ 1.33. Choice B." },
+        { q: "The table shows six data points. Which equation is the best model for the line of best fit?<br>x: 0, 1, 2, 3, 4, 5<br>y: 20, 17, 15, 10, 8, 4<br>A) y = 3.2x + 20.3<br>B) y = -3.2x + 10.3<br>C) y = -3.2x + 20.3<br>D) y = -2.2x + 20.3", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m ≈ -3.2, b ≈ 20.33. Choice C." },
+        { q: "The table shows five data points. Which equation is the best model for the line of best fit?<br>x: 2, 4, 6, 8, 10<br>y: 9, 13, 18, 20, 26<br>A) y = 2x + 5<br>B) y = 3x + 5<br>C) y = 2x + 9<br>D) y = 5x + 2", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m ≈ 2.05, b ≈ 4.9. Closest is choice A." },
+        { q: "The table shows five data points. Which equation is the best model for the line of best fit?<br>x: 1, 2, 3, 4, 5<br>y: 12, 15, 17, 22, 24<br>A) y = 3x + 4<br>B) y = 3x + 9<br>C) y = 4x + 9<br>D) y = 2x + 9", eq1: "y_1 ~ mx_1 + b", ans: "Desmos shows m = 3.1, b = 8.7. Closest is choice B." }
     ],
+
+    // Hack 5: Quadratic Extremas (click the vertex or the x-axis crossings)
     hack5: [
-        { q: "What is the minimum value of y = x² - 6x + 5?", eq1: "y = x^2 - 6x + 5", ans: "Click the bottom of the U: (3, -4). The minimum value is -4." },
-        { q: "What is the maximum value of y = -x² + 4x + 5?", eq1: "y = -x^2 + 4x + 5", ans: "Click the top of the hill: (2, 9). The maximum value is 9." },
-        { q: "What is the positive zero of y = x² - 2x - 8?", eq1: "y = x^2 - 2x - 8", ans: "Click where it crosses the x-axis on the right: x = 4. (The other is x = -2.)" },
-        { q: "At what x-value does y = x² + 4x - 5 reach its minimum?", eq1: "y = x^2 + 4x - 5", ans: "Click the bottom of the U: (-2, -9). The x-value is -2." },
-        { q: "What is the greatest value of y = -2x² + 8x?", eq1: "y = -2x^2 + 8x", ans: "Click the top of the hill: (2, 8). The greatest value is 8." },
-        { q: "What is the smaller zero of y = x² - 10x + 21?", eq1: "y = x^2 - 10x + 21", ans: "Click the left x-axis crossing: x = 3. (The other is x = 7.)" },
-        { q: "A ball's height is y = -16x² + 64x + 5, where x is seconds. What is its maximum height?", eq1: "y = -16x^2 + 64x + 5", ans: "Click the top of the hill: (2, 69). The maximum height is 69. (Zoom out if you can't see it.)" },
-        { q: "What is the minimum value of y = x² + 6x + 10?", eq1: "y = x^2 + 6x + 10", ans: "Click the bottom of the U: (-3, 1). The minimum value is 1. (It never touches the x-axis.)" }
+        { q: "The function f is defined by f(x) = x² - 6x + 5. What is the minimum value of f?", eq1: "y = x^2 - 6x + 5", ans: "Bottom of the U is the point (3, -4). The minimum value is -4." },
+        { q: "The function g is defined by g(x) = -x² + 4x + 5. What is the maximum value of g?", eq1: "y = -x^2 + 4x + 5", ans: "Top of the hill is the point (2, 9). The maximum value is 9." },
+        { q: "What is the positive solution to the equation x² - 2x - 8 = 0?", eq1: "y = x^2 - 2x - 8", ans: "The parabola crosses the x-axis at -2 and 4. The positive solution is 4." },
+        { q: "The function f is defined by f(x) = x² + 4x - 5. For what value of x does f(x) reach its minimum?", eq1: "y = x^2 + 4x - 5", ans: "Bottom of the U is the point (-2, -9). The x-value is -2." },
+        { q: "The function f is defined by f(x) = -2x² + 8x. What is the greatest value of f?", eq1: "y = -2x^2 + 8x", ans: "Top of the hill is the point (2, 8). The greatest value is 8." },
+        { q: "What is the smaller solution to the equation x² - 10x + 21 = 0?", eq1: "y = x^2 - 10x + 21", ans: "The parabola crosses the x-axis at 3 and 7. The smaller solution is 3." },
+        { q: "The function h(t) = -16t² + 64t + 5 gives the height, in feet, of a ball t seconds after it is thrown upward. What is the maximum height, in feet, of the ball?", eq1: "y = -16x^2 + 64x + 5", ans: "Top of the hill is the point (2, 69). The maximum height is 69 feet. (Zoom out if you can't see it.)" },
+        { q: "The function f is defined by f(x) = x² + 6x + 10. What is the minimum value of f?", eq1: "y = x^2 + 6x + 10", ans: "Bottom of the U is the point (-3, 1). The minimum value is 1. It never touches the x-axis." }
     ],
+
+    // Hack 6: Circle Geometry (type it as written, read the edges off the grid)
     hack6: [
-        { q: "What is the radius of the circle x² + y² - 6x + 4y - 12 = 0?", eq1: "x^2 + y^2 - 6x + 4y - 12 = 0", ans: "Radius = 5. Center = (3, -2). The circle spans x = -2 to x = 8." },
-        { q: "What is the center of the circle x² + y² + 8x - 2y + 8 = 0?", eq1: "x^2 + y^2 + 8x - 2y + 8 = 0", ans: "Center = (-4, 1). Radius = 3." },
-        { q: "What is the radius of the circle x² + y² - 4x - 6y - 3 = 0?", eq1: "x^2 + y^2 - 4x - 6y - 3 = 0", ans: "Radius = 4. Center = (2, 3)." },
-        { q: "What is the center of the circle x² + y² + 6x = 0?", eq1: "x^2 + y^2 + 6x = 0", ans: "Center = (-3, 0). Radius = 3." },
-        { q: "What is the radius of the circle x² + y² - 2x - 8y + 1 = 0?", eq1: "x^2 + y^2 - 2x - 8y + 1 = 0", ans: "Radius = 4. Center = (1, 4)." },
-        { q: "What is the center of the circle x² + y² + 10y - 11 = 0?", eq1: "x^2 + y^2 + 10y - 11 = 0", ans: "Center = (0, -5). Radius = 6." },
-        { q: "What is the radius of the circle x² + y² - 12x + 20 = 0?", eq1: "x^2 + y^2 - 12x + 20 = 0", ans: "Radius = 4. Center = (6, 0)." },
-        { q: "What is the diameter of the circle x² + y² - 8x + 6y = 0?", eq1: "x^2 + y^2 - 8x + 6y = 0", ans: "Diameter = 10 (radius 5, center (4, -3)). The circle passes through the origin." }
+        { q: "In the xy-plane, the graph of x² + y² - 6x + 4y - 12 = 0 is a circle. What is the radius of the circle?", eq1: "x^2 + y^2 - 6x + 4y - 12 = 0", ans: "The circle spans x = -2 to x = 8, so it is 10 wide. Radius = 5. (Center is (3, -2).)" },
+        { q: "In the xy-plane, the graph of x² + y² + 8x - 2y + 8 = 0 is a circle. What are the coordinates of the center of the circle?", eq1: "x^2 + y^2 + 8x - 2y + 8 = 0", ans: "The circle spans x = -7 to x = -1, and y = -2 to y = 4. Center = (-4, 1). (Radius is 3.)" },
+        { q: "In the xy-plane, the graph of x² + y² - 4x - 6y - 3 = 0 is a circle. What is the radius of the circle?", eq1: "x^2 + y^2 - 4x - 6y - 3 = 0", ans: "The circle spans x = -2 to x = 6, so it is 8 wide. Radius = 4. (Center is (2, 3).)" },
+        { q: "In the xy-plane, the graph of x² + y² + 6x = 0 is a circle. What are the coordinates of the center of the circle?", eq1: "x^2 + y^2 + 6x = 0", ans: "The circle spans x = -6 to x = 0 and sits on the x-axis. Center = (-3, 0). (Radius is 3.)" },
+        { q: "In the xy-plane, the graph of x² + y² - 2x - 8y + 1 = 0 is a circle. What is the radius of the circle?", eq1: "x^2 + y^2 - 2x - 8y + 1 = 0", ans: "The circle spans x = -3 to x = 5, so it is 8 wide. Radius = 4. (Center is (1, 4).)" },
+        { q: "In the xy-plane, the graph of x² + y² + 10y - 11 = 0 is a circle. What are the coordinates of the center of the circle?", eq1: "x^2 + y^2 + 10y - 11 = 0", ans: "The circle spans y = -11 to y = 1 and is centered on the y-axis. Center = (0, -5). (Radius is 6.)" },
+        { q: "In the xy-plane, the graph of x² + y² - 12x + 20 = 0 is a circle. What is the radius of the circle?", eq1: "x^2 + y^2 - 12x + 20 = 0", ans: "The circle spans x = 2 to x = 10, so it is 8 wide. Radius = 4. (Center is (6, 0).)" },
+        { q: "In the xy-plane, the graph of x² + y² - 8x + 6y = 0 is a circle. What is the diameter of the circle?", eq1: "x^2 + y^2 - 8x + 6y = 0", ans: "The circle spans x = -1 to x = 9, so the diameter is 10. (Radius 5, center (4, -3). It passes through the origin.)" }
     ]
 };
 
