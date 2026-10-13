@@ -1,4 +1,5 @@
 // questions.js
+
 const questionBank = {
     hack1: [
         { q: "If √(3x + 1) = 4, what is the value of x?", eq1: "y = \\sqrt{3x+1}", eq2: "y = 4", ans: "x = 5" },
