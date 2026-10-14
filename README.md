@@ -4,7 +4,7 @@ A static, single-page practice tool for the Digital SAT Math section. It teaches
 
 The page shows a practice-question panel on the left and the embedded College Board Desmos test calculator (`https://www.desmos.com/testing/collegeboard/graphing`) on the right, so practice happens in the same calculator used on test day.
 
-> **Branch note:** `answer-checking` is the branch served by GitHub Pages and is ahead of `main`. Work on it and push to it. `main` predates answer checking, the cue cards, the version footer and the removal of weekly headings. Merge `answer-checking` into `main` only when the owner says so.
+> **Branch and release status:** `main` is the working branch and contains everything described here (answer checking, cue cards, version footer, no weekly headings). The `1.0.0` release is tagged on an older `main` commit (`1649a8d`) and does **not** include answer checking, the footer or this README; a `1.1.0` release is intended to capture them. The older `answer-checking` branch points at the same commit and can be deleted once `main` is confirmed good. GitHub Pages should serve `main` (Settings → Pages → Deploy from a branch); the owner makes that switch, so confirm it before assuming a push to `main` goes live.
 
 ## Design principles (why the interface looks the way it does)
 
@@ -80,7 +80,7 @@ I (the previous agent) recalled from memory that Algebra and Advanced Math are r
 
 ## Versioning, deploy and caching
 
-- GitHub Pages serves a single branch, currently `answer-checking` (Settings → Pages → Deploy from a branch).
+- GitHub Pages serves a single branch (Settings → Pages → Deploy from a branch). It was `answer-checking` while that branch was in review and is intended to be `main` now; verify in Settings before relying on either.
 - The page footer shows `Page version`, `Questions version` and the server's `document.lastModified`. If the two version stamps differ, the browser is serving a stale copy of one file.
 - `questions.js` is loaded with a `?v=` query tag as a cache-buster.
 - **The stamps are manual.** On every commit that changes `index.html` or `questions.js`, update the same `YYYY-MM-DD HH:MM PT` time in all three places: the footer text in `index.html`, the `?v=YYYY-MM-DD_HHMM_PT` tag on the `<script src>` in `index.html`, and `QUESTIONS_VERSION` at the top of `questions.js`. A small stamping script would remove this chore and has not been built.
@@ -108,6 +108,6 @@ There is no test suite. What worked:
 
 ## Working conventions
 
-- Commit on `answer-checking` and push. The repo is cloned shallow in some environments; if a stop hook claims commits are unpushed, run `git fetch --depth=1 origin +refs/heads/answer-checking:refs/remotes/origin/answer-checking` so the remote-tracking ref exists.
+- For larger or experimental changes, use a branch and let the owner decide when to merge (that is how answer checking was reviewed). Small, approved changes can go straight to `main`. The repo is cloned shallow in some environments; if a stop hook claims commits are unpushed, fetch the branch into a remote-tracking ref, e.g. `git fetch --depth=1 origin +refs/heads/<branch>:refs/remotes/origin/<branch>`.
 - Keep every numeric answer verified by computation before committing.
 - Ask before changing the schema, the nested `<details>` flow, or the pacing model.
