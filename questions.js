@@ -1,5 +1,7 @@
 // questions.js
 
+const QUESTIONS_VERSION = "2026-10-13 20:57 PT";
+
 const questionBank = {
     // Hack 1: Left vs. Right Split (solve for x by clicking the intersection)
     hack1: [
